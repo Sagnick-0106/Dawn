@@ -1,0 +1,39 @@
+.sideBar {
+    height: 100vh;
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-light-2);
+    box-shadow: 0 0 2px 1px var(--bg-light-2);
+    z-index: 2;
+}
+
+.sideBar-components {
+    align-self: center;
+    margin: 5px 0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: var(--bg-white);
+    color: var(--clr-p);
+}
+
+.sideBar-components:hover {
+    background-color: var(--clr-s);
+    color: var(--txt-white);
+    border-radius: 40%;
+    transition: background-color .1s, color .1s;
+}
+    
+.sideBar-components::before {
+    content: "+";
+    height:50px;
+    width:50px;
+    font-size: 1.3rem;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+    font-family:courier;
+}

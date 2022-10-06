@@ -1,0 +1,33 @@
+:root {
+    --txt-black: #1F1F1F;
+    --txt-white: #F5F5F5;
+    --bg-black: #1F1F1F;
+    --bg-white: #FFFFFF;
+    --bg-light-1: #F5F5F5;
+    --bg-light-2: #DEDEDE;
+    --bg-light-3: #C7C7C7;
+    --bg-dark: #808080;
+    --clr-p: #0A58FF;
+    --clr-s: #DECF3F;
+}
+  
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400&display=swap');
+body {
+    margin: 0;
+    font-family: 'Work Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 14px;
+    letter-spacing: .05rem;
+    font-weight: 600;
+    color: var(--txt-black);
+    background-color: var(--bg-white);
+}
+
+#root {
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    height: 100vh;
+}
+ 

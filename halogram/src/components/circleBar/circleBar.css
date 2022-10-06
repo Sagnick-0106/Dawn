@@ -1,0 +1,52 @@
+.circleBar {
+    padding: 5px 8px;
+    height: 100vh;
+    width: 220px;
+    background-color: var(--bg-light-1);
+    box-shadow: 0 0 2px 1px var(--bg-light-1);
+    z-index: 1;
+}
+
+.circleBanner {
+    height: 125px;
+    padding: 5px;
+    background-color: var(--clr-p);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.circleTitle {
+    color: var(--txt-white);
+    font-weight: bold;
+}
+
+.chord {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 5px;
+    cursor: pointer;
+    border-radius: 3px 0 0 3px;
+}
+
+.chord:hover {
+    box-shadow: 0 0 2px 0 var(--bg-light-2);
+    background-color: var(--bg-light-2);
+}
+
+.chord.active {
+    background-color: var(--bg-white);
+}
+
+.chord.active:hover {
+    box-shadow: none;
+}
+
+span.chordIcon {
+    display: inline-flex;
+    margin-right: 5px;
+    border-radius: 50%;
+    height: 7px;
+    width: 7px;
+    background-color: var(--clr-s);
+}
