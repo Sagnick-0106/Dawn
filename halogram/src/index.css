@@ -1,0 +1,26 @@
+:root {
+  --txt-black: #1F1F1F;
+  --txt-white: #F5F5F5;
+  --bg-white: #FFFFFF;
+  --bg-light-1: #F5F5F5;
+  --bg-light-2: #F1E9E4;
+  --bg-light-3: #EDDDD4;
+  --bg-dark: #808080;
+  --color-primary: #0A58FF;
+  --color-secondary: #DECF3F;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
+body {
+  margin: 0;
+  font-family: 'Comic Neue', cursive;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  background-color: var(--bg-white);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
