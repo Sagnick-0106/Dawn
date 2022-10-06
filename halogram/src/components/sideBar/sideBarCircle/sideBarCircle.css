@@ -1,0 +1,31 @@
+.sideBar-circle-component {
+    width: 55px;
+    height: 55px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-light-2);
+    cursor: pointer;
+}
+
+.sideBar-circle {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: var(--clr-p);
+}
+
+.sideBar-circle-component.active > .sideBar-circle {
+    border-radius: 30%;
+    box-shadow: 0 0 1px 1px var(--bg-light-2);
+    transition: border-radius .1s, color .3s;
+}
+
+.sideBar-circle-component:hover > .sideBar-circle {
+    border-radius: 30%;
+    transition: border-radius .1s, color .3s;
+}
