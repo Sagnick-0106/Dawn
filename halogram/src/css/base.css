@@ -32,7 +32,9 @@ body {
     color: var(--clr-p);
     cursor: pointer;
 }
+
 .text-link:hover {
     border-bottom: 2px solid;
 }
+
  
