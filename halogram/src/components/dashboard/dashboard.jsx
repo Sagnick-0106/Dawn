@@ -1,12 +1,12 @@
-import logo from './logo.svg';
 import React, { Component } from 'react';
-import './App.css';
-import SideBar from './components/sideBar/sideBar';
-import CircleBar from './components/circleBar/circleBar';
-import Material from './components/material/material';
+import SideBar from '../sideBar/sideBar';
+import CircleBar from '../circleBar/circleBar';
+import Material from '../material/material';
 import io from 'socket.io-client';
 
-class App extends Component{
+import './dashboard.css';
+
+class Dashboard extends Component{
   constructor () {
     super();
     const socket = io(`http://${window.location.hostname}:8100`);
@@ -207,13 +207,13 @@ class App extends Component{
 
   render() {
     return (
-      <React.StrictMode>
+      <div className="dashboard">
         <SideBar circles={this.state.circles} onActivate={this.handleActiveCircle} />
         <CircleBar chords={this.getActiveCircleChords()} handleActiveChord={this.handleActiveChord}/>
         <Material chats={this.getActiveChats()} insertChat={this.insertChat} />
-      </React.StrictMode>
+      </div>
     );
   }
 }
 
-export default App;
+export default Dashboard;

@@ -1,0 +1,6 @@
+.dashboard {
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+  height: calc(100vh - 45px);
+}

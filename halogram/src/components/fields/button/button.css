@@ -1,0 +1,11 @@
+.button-field {
+  height: 30px;
+  padding: 6px 24px;
+  background-color: var(--clr-p);
+  border: none;
+  border-radius: 4px;
+  color: var(--bg-white);
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}

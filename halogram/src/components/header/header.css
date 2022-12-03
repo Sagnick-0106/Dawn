@@ -1,0 +1,19 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--bg-light-3);
+}
+
+header h2 {
+  display: inline;
+  margin: 10px 20px 10px;
+}
+
+header .user-info {
+  display: flex;
+  align-items: center;
+}
+
+header .user-info button {
+  margin: 0 16px;
+}
