@@ -1,6 +1,5 @@
 .circleBar {
     padding: 5px 8px;
-    height: 100vh;
     width: 220px;
     background-color: var(--bg-light-1);
     box-shadow: 0 0 2px 1px var(--bg-light-1);

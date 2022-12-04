@@ -1,0 +1,40 @@
+.auth-page {
+  background-color: var(--bg-light-3);
+  width: 100%;
+  height: calc(100vh - 45px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-card {
+  background-color: var(--bg-white);
+  border-radius: 6px;
+  padding: 24px 32px 48px;
+}
+
+.auth-page label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.auth-page input {
+  display: block;
+  margin: 5px 0 25px;
+  padding: 0 6px;
+  height: 30px;
+  min-width: 300px;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.auth-page button {
+  width: 100%;
+  height: 36px;
+  font-size: 16px;
+}
+
+.auth-page .help-text {
+  margin-top: 10px;
+}
