@@ -1,43 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import "./material.css";
+import { selectMessagesOfActiveChord } from '../../store/selectors/circle';
+import { selectUserMetadata } from '../../store/selectors/user';
 
-class Material extends Component { 
+const Material = (props) => {
+    const [newMessage, setNewMessage] = useState('');
+    const [chatForm, setChatForm] = useState('');
 
-    handleSubmit = (event) => {
+
+    const onChatSubmit = (event) => {
         event.preventDefault();
-        this.props.insertChat(this.newChat, this.chatForm);
+        props.insertChat(newMessage);
+        chatForm.reset();
     }
 
-    render() { 
-        return (
-            <div className="material">
-                <div className="materialHistory">
-                    <div className="chatHistory">
-                        <div className="chatBox">
-                            {Object.entries(this.props.chats).map(([key, chat])=>
-                                <div className={"chatElement " + chat.party} key={ key }>
-                                    <div className="chatUser"></div>
-                                    <p>{ chat.description }</p>
-                                </div>
-                            )}
-                        </div>
+    const messageParty = (message) => {
+        return (message.createdBy === props.userMetadata?._id ? 'self': 'other');
+    }
+
+    return (
+        <div className="material">
+            <div className="materialHistory">
+                <div className="chatHistory">
+                    <div className="chatBox">
+                        {!!props.messagesOfActiveChord?.length && props.messagesOfActiveChord.map(chat =>
+                            <div className={`chatElement ${messageParty(chat)}`} key={ chat._id }>
+                                <div className="chatUser"></div>
+                                <p>{ chat.description }</p>
+                            </div>
+                        )}
                     </div>
                 </div>
-                <div className="materialInput">
-                    <form className="materialAdd" 
-                    ref={input => this.chatForm = input} onSubmit={(e) => {this.handleSubmit(e)}}>
-                        <input 
-                        ref={input => this.newChat = input}
-                        className="materialPlaceholder" 
-                        type="text" 
-                        placeholder="Message #General" />
-                    </form>
-                    <div className="inputButton" 
-                    onClick={() =>this.props.insertChat(this.newChat, this.chatForm)}></div>
-                </div>
             </div>
-        );
-    }
-}
- 
-export default Material;
+            <div className="materialInput">
+                <form className="materialAdd" 
+                ref={setChatForm} onSubmit={onChatSubmit}>
+                    <input 
+                    onChange={e => setNewMessage(e.target.value)}
+                    className="materialPlaceholder" 
+                    type="text" 
+                    placeholder="Message #General" />
+                </form>
+                <div className="inputButton" 
+                onClick={() => props.insertChat(newMessage, chatForm)}></div>
+            </div>
+        </div>
+    );
+};
+
+const mapStateToProps = createStructuredSelector({
+    userMetadata: selectUserMetadata,
+    messagesOfActiveChord: selectMessagesOfActiveChord
+});
+export default connect(mapStateToProps)(Material);
+

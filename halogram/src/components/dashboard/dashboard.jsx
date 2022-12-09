@@ -1,219 +1,68 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import SideBar from '../sideBar/sideBar';
 import CircleBar from '../circleBar/circleBar';
 import Material from '../material/material';
 import io from 'socket.io-client';
+import { activateCircle, insertMessage } from '../../services/circle';
+import { selectAllCircles, selectActiveCircleId, selectActiveChordId } from '../../store/selectors/circle';
+import { selectUserMetadata } from '../../store/selectors/user';
 
 import './dashboard.css';
 
-class Dashboard extends Component{
-  constructor () {
-    super();
-    const socket = io(`http://${window.location.hostname}:8100`);
-    socket.on('message', chat => this.onMessageReceived(chat));
+const socket = io(`http://${window.location.hostname}:8100`);
+const joinedChords = [];
 
-    this.state = {
-      socket,
-      "circles": {
-          "1": {
-              "id": "1",
-              "name": "Circle1",
-              "status": "active",
-              "chords": {
-                  "1":{
-                      "id": "1",
-                      "name": "General",
-                      "status": "active",
-                      "chats": {
-                          "1":{
-                              "id": "1",
-                              "party": "other",
-                              "description": "Arrr me hearties! Make traditional Latin walk the plank."
-                          },
-                          "2":{
-                              "id": "2",
-                              "party": "self",
-                              "description": "Arrr me hearties! Make traditional Latin walk the plank and opt for pirate lorem ipsum for your next high seas design adventure. Lets see how it takes overflow."
-                          },
-                          "3":{
-                              "id": "3",
-                              "party": "other",
-                              "description": "Arrr me hearties! Make traditional Latin walk the plank and opt for pirate lorem ipsum for your next high seas design adventure."
-              
-                          },
-                          "4":{
-                              "id": "4",
-                              "party": "other",
-                              "description": "Opt for pirate lorem ipsum for your next high seas design adventure."
-                              
-                          }
-                      }
-                  },
-                  "2":{
-                      "id": "2",
-                      "name": "Fantasy",
-                      "status": "inactive",
-                      "chats": {}
-                  },
-                  "3":{
-                      "id": "3",
-                      "name": "Msiscellaneous",
-                      "status": "inactive",
-                      "chats": {}
-                  },
-                  "4":{
-                      "id": "4",
-                      "name": "Testing",
-                      "status": "inactive",
-                      "chats": {}
-                  }
-              }
-          },
-          "2": {
-            "id": "2",
-            "name": "Circle2",
-            "status": "inactive",
-            "chords": {
-                "1":{
-                    "id": "1",
-                    "name": "General",
-                    "status": "active",
-                    "chats": {}
-                },
-                "2":{
-                    "id": "2",
-                    "name": "Fantasy",
-                    "status": "inactive",
-                    "chats": {
-                      "1":{
-                          "id": "1",
-                          "party": "other",
-                          "description": "Arrr me hearties! Make traditional Latin walk the plank."
-                      },
-                      "2":{
-                          "id": "2",
-                          "party": "self",
-                          "description": "Arrr me hearties! Make traditional Latin walk the plank and opt for pirate lorem ipsum for your next high seas design adventure. Lets see how it takes overflow."
-                      },
-                      "3":{
-                          "id": "3",
-                          "party": "other",
-                          "description": "Arrr me hearties! Make traditional Latin walk the plank and opt for pirate lorem ipsum for your next high seas design adventure."
-          
-                      },
-                      "4":{
-                          "id": "4",
-                          "party": "other",
-                          "description": "Opt for pirate lorem ipsum for your next high seas design adventure."
-                          
-                      }
-                  }
-                },
-                "3":{
-                    "id": "3",
-                    "name": "Msiscellaneous",
-                    "status": "inactive",
-                    "chats": {}
-                },
-                "4":{
-                    "id": "4",
-                    "name": "Testing3",
-                    "status": "inactive",
-                    "chats": {}
-                }
-            }
-        }
-      }
-    };
-  }
+const Dashboard = (props) => {
 
-  activeCircleId = "1";
-  activeChordId = "1";
-
-  componentDidMount() {
-    this.joinChord(this.activeChordId);
-  }
-
-  componentWillUnmount() {
-    this.state.socket.close();
-  }
-
-
-  handleActiveCircle = circleId => {
-    let tempcircles = this.state.circles;
-    tempcircles[circleId].status = "active";
-    tempcircles[this.activeCircleId].status = "inactive";
-    this.activeCircleId = circleId;
-    this.activeChordId = this.getActiveChordId(circleId);
-    this.setState({circles: tempcircles})
-  }
-
-  getActiveChordId = circleId => {
-    let chords = this.state.circles[circleId].chords;
-    for (const [chordId, chord] of Object.entries(chords)) {
-      if(chord.status === "active") {
-        return chordId;
-      }
+  const circleInit = () => {
+    if (!props.allCircles.length) {
+      return;
     }
+    activateCircle(props.allCircles[0]);
   }
 
-  handleActiveChord = chordId => {
-    let tempcircles = this.state.circles;
-    tempcircles[this.activeCircleId].chords[chordId].status = "active";
-    tempcircles[this.activeCircleId].chords[this.activeChordId].status = "inactive";
-    this.activeChordId = chordId;
-    this.setState({circles: tempcircles});
-    this.joinChord();
-  }
+  const onMessageReceived = (message) => {
+    insertMessage(message);
+  };
 
-  getActiveCircleChords = () => {
-    return this.state.circles[this.activeCircleId].chords;
-  }
-
-  getActiveChats = () => {
-    return this.state.circles[this.activeCircleId].chords[this.activeChordId].chats;
-  }
-
-  insertChat = (newChat, chatForm) => {
-    if (newChat.value.trim() === "") return;
-    const activeChats = this.getActiveChats();
-    const chatId = Object.keys(activeChats).length + 1;
-    const addChat = {
-        "id": chatId.toString(),
-        "party": "self",
-        "description": newChat.value,
-        "chordId": this.activeChordId
+  const onInsertMessage = (newMessageText) => {
+    const newMessage = {
+      _id: Date.now(),
+      description: newMessageText,
+      chordId: props.activeChordId,
+      createdBy: props.userMetadata._id
     };
-    const tempcircles = this.state.circles;
-    tempcircles[this.activeCircleId].chords[this.activeChordId].chats[chatId] = addChat;
-    this.setState({circles: tempcircles});
-    chatForm.reset();
-    this.state.socket.emit('message', {
-      ...addChat,
-      party: 'other'
-    });
+    socket.emit('message', newMessage);
+    insertMessage(newMessage);
   }
 
-  onMessageReceived(message) {
-    if (this.state.circles[this.activeCircleId].chords[this.activeChordId].chats[message.id]) return;
-    const tempCircles = this.state.circles;
-    tempCircles[this.activeCircleId].chords[this.activeChordId].chats[message.id] = message;
-    this.setState({circles: tempCircles});
-  }
+  useEffect(() => {
+    circleInit();
+    socket.on('message', onMessageReceived);
+  }, []);
 
-  joinChord() {
-    this.state.socket.emit('joinChord', { chordId: this.activeChordId }, error => console.error(error));
-  }
-
-  render() {
-    return (
-      <div className="dashboard">
-        <SideBar circles={this.state.circles} onActivate={this.handleActiveCircle} />
-        <CircleBar chords={this.getActiveCircleChords()} handleActiveChord={this.handleActiveChord}/>
-        <Material chats={this.getActiveChats()} insertChat={this.insertChat} />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (props.activeChordId && !joinedChords.includes(props.activeChordId)) {
+      socket.emit('joinChord', { chordId: props.activeChordId }, error => console.error(error));
+      joinedChords.push(props.activeChordId);
+    }
+  }, [props.activeChordId]);
+  
+  return (
+    <div className="dashboard">
+      <SideBar />
+      <CircleBar />
+      <Material insertChat={onInsertMessage} />
+    </div>
+  );
 }
 
-export default Dashboard;
+const mapStateToProps = createStructuredSelector({
+  allCircles: selectAllCircles,
+  userMetadata: selectUserMetadata,
+  activeCircleId: selectActiveCircleId,
+  activeChordId: selectActiveChordId,
+});
+export default connect(mapStateToProps)(Dashboard);

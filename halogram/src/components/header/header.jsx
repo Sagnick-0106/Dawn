@@ -1,13 +1,14 @@
 import React from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { useNavigate } from 'react-router-dom';
 import * as UserService from '../../services/user';
 import Button from '../fields/button/button';
+import { selectUserMetadata } from '../../store/selectors/user';
 
 import './header.css';
 
-export default function Header() {
-  const { userMetadata } = useSelector(store => store.user, shallowEqual);
+const Header = (props) => {
   const navigate = useNavigate();
 
   const onLogOut = () => {
@@ -17,9 +18,9 @@ export default function Header() {
   return (
     <header>
       <h2>Halogram</h2>
-      { userMetadata?.name && <div className="user-info">
+      { props.userMetadata?.name && <div className="user-info">
         <div>
-          {userMetadata.name}
+          {props.userMetadata.name}
         </div>
         <Button
           onClick={onLogOut}
@@ -30,3 +31,8 @@ export default function Header() {
     </header>
   )
 }
+
+const mapStateToProps = createStructuredSelector({
+  userMetadata: selectUserMetadata,
+});
+export default connect(mapStateToProps)(Header);

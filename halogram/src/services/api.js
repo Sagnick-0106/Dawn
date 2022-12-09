@@ -17,7 +17,6 @@ export default class API {
   }
   async makeRequest(request) {
     request.baseURL = this.baseURL;
-    console.log(request);
     const response = await axios.request(request);
     return response.data;
   }
@@ -25,7 +24,6 @@ export default class API {
   async makeAuthenticatedRequest(request) {
     const token = getToken();
     this.addHeaders(request, { authorization: `Bearer ${token}` });
-    console.log(request);
     const response = await this.makeRequest(request);
     return response;
   }

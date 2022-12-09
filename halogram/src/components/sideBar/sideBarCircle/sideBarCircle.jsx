@@ -1,15 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { activateCircle } from '../../../services/circle';
 import "./sideBarCircle.css";
+import { selectActiveCircleId, selectAllCircles } from '../../../store/selectors/circle';
 
-class SideBarCircle extends Component {
-    render() { 
-        return (
-            <div className={"sideBar-circle-component " + this.props.circle.status} 
-            onClick={() => this.props.onActivate(this.props.circle.id)}>
-                <div className="sideBar-circle"></div>
-            </div>
-        );
-    }
+const SideBarCircle = (props) => {
+    const status = (props.activeCircleId === props.circle._id)? 'active': 'inactive';
+    return (
+        <div className={`sideBar-circle-component ${status}`} 
+            onClick={() => activateCircle(props.circle)}
+        >
+            <div className="sideBar-circle"></div>
+        </div>
+    );
 }
- 
-export default SideBarCircle;
+
+const mapStateToProps = createStructuredSelector({
+    activeCircleId: selectActiveCircleId,
+    allCircles: selectAllCircles
+});
+export default connect(mapStateToProps)(SideBarCircle);
+
