@@ -1,5 +1,6 @@
-import API from './api';
+import API from './Api';
 import { UserActions } from '../store/actions';
+import ChatEngine from './ChatEngine';
 
 const HALOGRAM_TOKEN = 'HALOGRAM_TOKEN';
 
@@ -13,6 +14,7 @@ export const authenticate = async () => {
       url: `/users/me`,
     });
     UserActions.login(userMetadata);
+    ChatEngine.init();
     return userMetadata;
   } catch (error) {
       console.error(error);
@@ -30,6 +32,7 @@ export const login = async (email, password) => {
       }
     });
     setToken(userMetadata.token);
+    ChatEngine.init();
     UserActions.login(userMetadata);
     return userMetadata; 
   } catch (error) {
