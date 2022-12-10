@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextInput from '../fields/textInput/textInput';
 import Button from '../fields/button/button';
-import * as UserService from '../../services/user';
+import * as UserService from '../../services/User';
 import { useNavigate } from 'react-router-dom';
 
 import './auth.css';

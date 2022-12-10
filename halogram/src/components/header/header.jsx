@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useNavigate } from 'react-router-dom';
-import * as UserService from '../../services/user';
+import * as UserService from '../../services/User';
 import Button from '../fields/button/button';
 import { selectUserMetadata } from '../../store/selectors/user';
 

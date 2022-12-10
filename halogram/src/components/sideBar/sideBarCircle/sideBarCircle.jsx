@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { activateCircle } from '../../../services/circle';
+import { activateCircle } from '../../../services/Circle';
 import "./sideBarCircle.css";
 import { selectActiveCircleId, selectAllCircles } from '../../../store/selectors/circle';
 

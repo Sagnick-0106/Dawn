@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import "./circleBar.css";
 import { selectActiveChordId, selectChordsOfActiveCircle } from '../../store/selectors/circle';
-import { activateChord } from '../../services/circle';
+import { activateChord } from '../../services/Circle';
 
 const CircleBar = (props) => { 
     const chordStatus = (chordId) => {

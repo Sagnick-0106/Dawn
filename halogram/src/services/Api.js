@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from './user';
+import { getToken } from './User';
 
 export default class API {
   constructor(baseURL) {
