@@ -22,7 +22,7 @@ export default (state = {}, action) => {
               chords: circle.chords.map((chord) => {
                 if (chord._id === action.message.chordId) {
                   const newMesssages = [...chord.messages];
-                  let messageIndex = newMesssages.findIndex(message => message._id === action.message._id);
+                  let messageIndex = newMesssages.findIndex(message => message._id === action.message._id || message.tempId === action.message.tempId);
                   if (messageIndex === -1) {
                     newMesssages.push(action.message);
                   } else {

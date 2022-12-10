@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { v4 as uuidv4 } from 'uuid'; 
 import "./material.css";
 import { selectActiveChordId, selectMessagesOfActiveChord } from '../../store/selectors/circle';
 import { selectUserMetadata } from '../../store/selectors/user';
@@ -14,7 +15,7 @@ const Material = (props) => {
     const onChatSubmit = (event) => {
         event.preventDefault();
         sendMessage({
-            _id: Date.now(),
+            tempId: uuidv4(),
             description: newMessage,
             chordId: props.activeChordId,
             createdBy: CREATED_BY_SELF
@@ -32,7 +33,7 @@ const Material = (props) => {
                 <div className="chatHistory">
                     <div className="chatBox">
                         {!!props.messagesOfActiveChord?.length && props.messagesOfActiveChord.map(chat =>
-                            <div className={`chatElement ${messageParty(chat)}`} key={chat._id}>
+                            <div className={`chatElement ${messageParty(chat)}`} key={chat._id || chat.tempId}>
                                 <div className="chatUser"></div>
                                 <p>{chat.description}</p>
                             </div>
