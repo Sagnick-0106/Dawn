@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import { insertMessage } from './Circle';
+import { getToken } from './User';
 
 export default class ChatEngine {
   static instance = new ChatEngine();
@@ -11,8 +12,9 @@ export default class ChatEngine {
     return this.instance;
   }
 
-  static init(token) {
-    this.instance.socket = io(`http://${window.location.hostname}:8100`, { token });
+  static init() {
+    const token = getToken();
+    this.instance.socket = io(`http://${window.location.hostname}:8100`, { auth: { token } });
     this.instance.socket.on('message', insertMessage);
   }
 

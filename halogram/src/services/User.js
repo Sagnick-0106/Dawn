@@ -14,7 +14,7 @@ export const authenticate = async () => {
       url: `/users/me`,
     });
     UserActions.login(userMetadata);
-    ChatEngine.init(userMetadata.token);
+    ChatEngine.init();
     return userMetadata;
   } catch (error) {
       console.error(error);
@@ -32,7 +32,7 @@ export const login = async (email, password) => {
       }
     });
     setToken(userMetadata.token);
-    ChatEngine.init(userMetadata.token);
+    ChatEngine.init();
     UserActions.login(userMetadata);
     return userMetadata; 
   } catch (error) {
