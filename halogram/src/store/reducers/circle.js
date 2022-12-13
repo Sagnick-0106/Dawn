@@ -1,11 +1,11 @@
-export default (state = {}, action) => {
+const CircleReducer = (state = {}, action) => {
   switch (action.type) {
     case 'ACTIVATE_CIRCLE':
       return {
         ...state,
         activeCircleId: action.circleId
       }
-    
+
     case 'ACTIVATE_CHORD':
       return {
         ...state,
@@ -22,7 +22,9 @@ export default (state = {}, action) => {
               chords: circle.chords.map((chord) => {
                 if (chord._id === action.message.chordId) {
                   const newMesssages = [...chord.messages];
-                  let messageIndex = newMesssages.findIndex(message => message._id === action.message._id || message.tempId === action.message.tempId);
+                  let messageIndex = newMesssages.findIndex(message =>
+                    (message._id && message._id === action.message._id) ||
+                    (message.tempId && message.tempId === action.message.tempId));
                   if (messageIndex === -1) {
                     newMesssages.push(action.message);
                   } else {
@@ -40,7 +42,31 @@ export default (state = {}, action) => {
           return circle;
         })
       }
-    
+
+    case 'LOAD_MESSAGES':
+      return {
+        ...state,
+        circles: state.circles.map((circle) => {
+          if (circle.chords.some(chord => chord._id === action.chordId)) {
+            return {
+              ...circle,
+              chords: circle.chords.map((chord) => {
+                if (chord._id === action.chordId) {
+                  return {
+                    ...chord,
+                    messages: action.messages
+                  }
+                }
+                return chord;
+              })
+            }
+          }
+          return circle;
+        })
+      }
+
     default: return state
   }
 };
+
+export default CircleReducer;

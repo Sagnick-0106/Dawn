@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { v4 as uuidv4 } from 'uuid'; 
 import "./material.css";
 import { selectActiveChordId, selectMessagesOfActiveChord } from '../../store/selectors/circle';
 import { selectUserMetadata } from '../../store/selectors/user';
-import { sendMessage } from '../../services/Circle';
+import { sendMessage, loadMessages } from '../../services/Circle';
 import { CREATED_BY_SELF } from '../../utils/constants';
 
 const Material = (props) => {
@@ -26,6 +26,12 @@ const Material = (props) => {
     const messageParty = (message) => {
         return ([props.userMetadata?._id, CREATED_BY_SELF].includes(message.createdBy) ? 'self' : 'other');
     }
+
+    useEffect(() => {
+        if (props.activeChordId) {
+            loadMessages(props.activeChordId);
+        }    
+    }, [props.activeChordId]);
 
     return (
         <div className="material">
@@ -62,5 +68,5 @@ const mapStateToProps = createStructuredSelector({
     activeChordId: selectActiveChordId,
     messagesOfActiveChord: selectMessagesOfActiveChord
 });
-export default connect(mapStateToProps)(Material);
 
+export default connect(mapStateToProps)(Material);

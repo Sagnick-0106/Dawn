@@ -13,3 +13,7 @@ export const activateChord = (chordId) => {
 export const insertMessage = (message) => {
   dispatch({ type: 'INSERT_MESSAGE', message });
 }
+
+export const loadMessages = (chordId, messages) => {
+  dispatch({ type: 'LOAD_MESSAGES', chordId, messages});
+}
